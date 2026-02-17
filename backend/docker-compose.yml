@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: newmusic-db
+    environment:
+      POSTGRES_USER: newmusic
+      POSTGRES_PASSWORD: newmusic
+      POSTGRES_DB: newmusic
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U newmusic"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: newmusic-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/newmusic
+      SPRING_DATASOURCE_USERNAME: newmusic
+      SPRING_DATASOURCE_PASSWORD: newmusic
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

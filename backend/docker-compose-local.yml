@@ -1,0 +1,23 @@
+# Apenas PostgreSQL — use para rodar a aplicação local pela IDE (IntelliJ / Eclipse).
+# Uso: docker-compose -f docker-compose-local.yml up -d
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: newmusic-db
+    environment:
+      POSTGRES_USER: newmusic
+      POSTGRES_PASSWORD: newmusic
+      POSTGRES_DB: newmusic
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U newmusic"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

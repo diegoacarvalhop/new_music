@@ -1,0 +1,1 @@
+function c(n){var o;const e=n,r=(o=e==null?void 0:e.response)==null?void 0:o.data,s=(r==null?void 0:r.mensagem)??"Erro ao processar. Tente novamente.",t=(r==null?void 0:r.erros)??{};return{mensagem:s,erros:t}}function g(n,e){return n[e]}export{g as a,c as g};

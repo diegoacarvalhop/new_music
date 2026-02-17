@@ -1,0 +1,19 @@
+# Backend (Java/Gradle)
+backend/.gradle/
+backend/.idea/
+backend/build/
+!backend/gradle/wrapper/gradle-wrapper.properties
+
+# Frontend (Node/Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/*.local
+frontend/coverage/
+frontend/.vite/
+.code/
+
+# Sistema / IDE
+.DS_Store

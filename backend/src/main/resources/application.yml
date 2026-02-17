@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: newmusic-api
+  flyway:
+    enabled: true
+    locations: classpath:db/migrations
+    baseline-on-migrate: true
+    baseline-version: 0
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: public
+    open-in-view: false
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/newmusic}
+    username: ${SPRING_DATASOURCE_USERNAME:newmusic}
+    password: ${SPRING_DATASOURCE_PASSWORD:newmusic}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME:diegoacarvalhop@gmail.com}
+    password: ${SPRING_MAIL_PASSWORD:bzoeaowrrpwcqfsd}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET:newmusic-secret-key-muito-longo-para-assinatura-jwt-minimo-256-bits}
+  access-token-validity-minutes: 30
+  refresh-token-validity-days: 7
+
+newmusic:
+  mail:
+    from: ${NEWMUSIC_MAIL_FROM:noreply@newmusic.local}
+  job:
+    mensalidade-atrasado:
+      cron: "0 0 9 * * ?"   # 9h da manhã
+      zone: "America/Recife" # Recife/PE
+  redefinicao-senha:
+    link-base: ${FRONTEND_URL:http://localhost:5173}

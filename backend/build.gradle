@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'br.com.newmusic'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+def frontendDir = file("${project.projectDir}/../frontend")
+def staticDir = file("${project.sourceSets.main.resources.srcDirs.find()}/static")
+
+tasks.register('buildFrontend', Exec) {
+    description = 'Build do frontend e cópia para src/main/resources/static (para rodar a aplicação completa pela IDE ou bootRun).'
+    group = 'application'
+    onlyIf { frontendDir.directory }
+    workingDir frontendDir
+    commandLine 'yarn', 'install'
+    doLast {
+        exec {
+            workingDir frontendDir
+            commandLine 'yarn', 'build'
+        }
+        staticDir.mkdirs()
+        delete fileTree(staticDir) { include '**/*' }
+        copy {
+            from file("${frontendDir}/dist")
+            into staticDir
+        }
+        println "Frontend copiado para ${staticDir}"
+    }
+}
+
+// buildFrontend: usado pelo script de build completo (run.sh/run.bat) ou por "gradlew buildFrontend bootJar" para gerar JAR com frontend.
