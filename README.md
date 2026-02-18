@@ -2,6 +2,8 @@
 
 Sistema New Music (backend + frontend). Este README explica como rodar a aplicação completa com o script da pasta `script` e como usar backup e restore do banco de dados.
 
+As configurações e instruções específicas do **backend** e do **frontend** (IDE, testes, etc.) estão nos READMEs de cada pasta: `backend/README.md` e `frontend/README.md`.
+
 ---
 
 ## Rodar a aplicação completa (script run)
