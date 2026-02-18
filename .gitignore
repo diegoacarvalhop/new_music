@@ -13,7 +13,10 @@ frontend/.env.*.local
 frontend/*.local
 frontend/coverage/
 frontend/.vite/
-.code/
+frontend/.code/
+
+# Backups do banco (script/backup)
+bkp_bd/
 
 # Sistema / IDE
 .DS_Store
